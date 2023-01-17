@@ -9,14 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CounterCubit, CounterState>(
       builder: (context, state) {
-        String numberText = '0';
-        if(state is CounterLoading){
-          numberText = 'Loading';
-        }else if(state is CounterLoaded){
-          numberText = state.number.toString();
-        }else if(state is CounterError){
-          numberText = state.errorMessage;
-        }
+        String numberText = (state as CounterLoaded).number.toString();
         return Scaffold(
           appBar: AppBar(),
           body: Column(
@@ -27,12 +20,16 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrementNumber();
-                  }, icon: const Icon(Icons.remove)),
-                  IconButton(onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).incrementNumber();
-                  }, icon: const Icon(Icons.add)),
+                  IconButton(
+                      onPressed: () {
+                        BlocProvider.of<CounterCubit>(context).decrementNumber();
+                      },
+                      icon: const Icon(Icons.remove)),
+                  IconButton(
+                      onPressed: () {
+                        BlocProvider.of<CounterCubit>(context).incrementNumber();
+                      },
+                      icon: const Icon(Icons.add)),
                 ],
               )
             ],
